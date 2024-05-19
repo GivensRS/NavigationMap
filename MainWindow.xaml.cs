@@ -97,30 +97,40 @@ namespace NavigationMap
             // Добавляем Grid в основное окно
             ButtonPanel.Children.Add(tableGrid);
         }
-
-        private Button CreateMainMenuButton(string floorName, int number)
-        {
-            Button button = new Button();
-            button.Content = floorName;
-            button.Margin = new Thickness(5);
-            button.Click += FloorButton_Click;
-            button.Tag = number;
-            return button;
-        }
-
         private void DisplayOffices()
         {
             ButtonPanel.Children.Clear();
+            int back = 0;
+
+            string room = "1А1 1А2 1А3 1А4";
+            string[] libRoom = room.Split(' ');
 
             // Добавляем кнопки кабинетов
-            ButtonPanel.Children.Add(CreateOfficeButton("Кабинет 101"));
-            ButtonPanel.Children.Add(CreateOfficeButton("Кабинет 102"));
-            ButtonPanel.Children.Add(CreateOfficeButton("Кабинет 103"));
-            ButtonPanel.Children.Add(CreateOfficeButton("Кабинет 104"));
-            ButtonPanel.Children.Add(CreateOfficeButton("Кабинет 105"));
-            ButtonPanel.Children.Add(CreateBackButton());
-        }
+            Grid tableGrid = new Grid();
+            Button button = new Button();
+            
+            for (int row = 0;row < libRoom.Length + 1; row++)
+            {
+                RowDefinition rowDefinition = new RowDefinition();
+                rowDefinition.Height = new GridLength(1, GridUnitType.Star);
+                tableGrid.RowDefinitions.Add(rowDefinition);
+            }
 
+            for (int row = 0; row < libRoom.Length;row++)
+            {
+                button = CreateOfficeButton(libRoom[row]);
+
+                Grid.SetRow(button, row);
+                tableGrid.Children.Add(button);
+                back = row;
+            }
+
+            button = CreateBackButton();
+            Grid.SetRow(button, back + 1);
+            tableGrid.Children.Add(button);
+
+            ButtonPanel.Children.Add(tableGrid);
+        }
         private Button CreateOfficeButton(string officeName)
         {
             Button button = new Button();
