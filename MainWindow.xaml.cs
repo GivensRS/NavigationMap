@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,10 @@ namespace NavigationMap
         public MainWindow()
         {
             InitializeComponent();
+
+            // Вывод по умолчанию карту второго этажа
+            string imagePath = $"pack://application:,,,/img/Floor2.jpg";
+            MapImage.Source = new BitmapImage(new Uri(imagePath));
         }
 
         private void FloorButton_Click(object sender, RoutedEventArgs e)
@@ -39,8 +44,15 @@ namespace NavigationMap
         private void DisplayFloorMap(int floor)
         {
             // Вывод картинки этажа на главный экран
-            string imagePath = $"pack://application:,,,/img/Floor{floor}.jpg";
-            MapImage.Source = new BitmapImage(new Uri(imagePath));
+            try
+            {
+                string imagePath = $"pack://application:,,,/img/Floor{floor}.jpg";
+                MapImage.Source = new BitmapImage(new Uri(imagePath));
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Нету фотографий");
+            }
         }
 
         private void DisplayBack_Click(object sender, RoutedEventArgs e)
@@ -48,17 +60,42 @@ namespace NavigationMap
             ButtonPanel.Children.Clear();
 
             // Возращаем кнопки выбора этажей
-            ButtonPanel.Children.Add(CreateMainMenuButton("Этаж 1", 1));
-            ButtonPanel.Children.Add(CreateMainMenuButton("Этаж 2", 2));
-            ButtonPanel.Children.Add(CreateMainMenuButton("Этаж 3", 3));
-            ButtonPanel.Children.Add(CreateMainMenuButton("Этаж 4", 4));
-            ButtonPanel.Children.Add(CreateMainMenuButton("Этаж 5", 5));
-            ButtonPanel.Children.Add(CreateMainMenuButton("Этаж 6", 6));
+            CreateTableMainMenu();
 
-            // Вывод по умолчанию карту первого этажа
-            int floor = 1;
+            // Вывод по умолчанию карту второго этажа
+            int floor = 2;
             string imagePath = $"pack://application:,,,/img/Floor{floor}.jpg";
             MapImage.Source = new BitmapImage(new Uri(imagePath));
+        }
+
+        private void CreateTableMainMenu()
+        {
+            // Создаем Grid
+            Grid tableGrid = new Grid();
+
+            // Добавляем строки
+            for (int i = 0; i < 6; i++)
+            {
+                RowDefinition row = new RowDefinition();
+                row.Height = new GridLength(1, GridUnitType.Star); // Высота каждой строки 1/6 Grid ButtonPanel
+                tableGrid.RowDefinitions.Add(row);
+            }
+
+            // Добавляем элементы в ячейки таблицы
+            for (int row = 0; row < 6; row++)
+            {
+                Button button = new Button();
+                button.Content = $"Этаж {row + 1}";
+                button.Margin = new Thickness(5);
+                button.Click += FloorButton_Click;
+                button.Tag = row + 1;
+
+                Grid.SetRow(button, row);
+                tableGrid.Children.Add(button);
+            }
+
+            // Добавляем Grid в основное окно
+            ButtonPanel.Children.Add(tableGrid);
         }
 
         private Button CreateMainMenuButton(string floorName, int number)
