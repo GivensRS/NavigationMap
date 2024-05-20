@@ -57,7 +57,7 @@ namespace NavigationMap
 
         private void DisplayBack_Click(object sender, RoutedEventArgs e)
         {
-            ButtonPanel.Children.Clear();
+            Border1.Child = null;
 
             // Возращаем кнопки выбора этажей
             CreateTableMainMenu();
@@ -70,6 +70,30 @@ namespace NavigationMap
 
         private void CreateTableMainMenu()
         {
+            // Создание Grid, который будет содержать строки для центровки кнопок
+            Grid mainMenu = new Grid();
+
+            // Создание строк для центровки блока с кнопками
+            RowDefinition rowDefinition1 = new RowDefinition();
+            RowDefinition rowDefinition2 = new RowDefinition();
+            RowDefinition rowDefinition3 = new RowDefinition();
+
+            // Задание относительных высот каждого блока, вторая строка явялется центровочной для блока с кнопками
+            rowDefinition1.Height = new GridLength(1, GridUnitType.Star);
+            rowDefinition2.Height = new GridLength(2, GridUnitType.Star);
+            rowDefinition3.Height = new GridLength(1, GridUnitType.Star);
+            mainMenu.RowDefinitions.Add(rowDefinition1);
+            mainMenu.RowDefinitions.Add(rowDefinition2);
+            mainMenu.RowDefinitions.Add(rowDefinition3);
+
+            // Создание Grid с именем ButtonPanel для помещения внутри кнопок
+            Grid ButtonPanel = new Grid();
+            Grid.SetRow(ButtonPanel, 1);
+            mainMenu.Children.Add(ButtonPanel);
+
+            // Загрузка созданного макета в блок с границами под именем Border1
+            Border1.Child = mainMenu;
+
             // Создаем Grid
             Grid tableGrid = new Grid();
 
@@ -99,8 +123,26 @@ namespace NavigationMap
         }
         private void DisplayOffices()
         {
-            ButtonPanel.Children.Clear();
-            int back = 0;
+            Border1.Child = null;
+
+            Grid roomMenu = new Grid();
+            RowDefinition rowDefinition1 = new RowDefinition();
+            RowDefinition rowDefinition2 = new RowDefinition();
+            RowDefinition rowDefinition3 = new RowDefinition();
+
+            rowDefinition1.Height = new GridLength(1, GridUnitType.Star);
+            rowDefinition2.Height = new GridLength(4, GridUnitType.Star);
+            rowDefinition3.Height = new GridLength(1, GridUnitType.Star);
+            roomMenu.RowDefinitions.Add(rowDefinition1);
+            roomMenu.RowDefinitions.Add(rowDefinition2);
+            roomMenu.RowDefinitions.Add(rowDefinition3);
+
+            Grid ButtonPanel = new Grid();
+            Grid.SetRow(ButtonPanel, 1);
+            roomMenu.Children.Add(ButtonPanel);
+
+            Border1.Child = roomMenu;
+
 
             string room = "1А1 1А2 1А3 1А4";
             string[] libRoom = room.Split(' ');
@@ -108,26 +150,53 @@ namespace NavigationMap
             // Добавляем кнопки кабинетов
             Grid tableGrid = new Grid();
             Button button = new Button();
-            
-            for (int row = 0;row < libRoom.Length + 1; row++)
+
+            ColumnDefinition col1 = new ColumnDefinition();
+            col1.Width = new GridLength(1, GridUnitType.Star);
+
+            ColumnDefinition col2 = new ColumnDefinition();
+            col2.Width = new GridLength(1, GridUnitType.Star);
+
+            ColumnDefinition col3 = new ColumnDefinition();
+            col3.Width = new GridLength (1, GridUnitType.Star);
+
+            tableGrid.ColumnDefinitions.Add(col1);
+            tableGrid.ColumnDefinitions.Add(col2);
+            tableGrid.ColumnDefinitions.Add(col3);
+
+            for (int row = 0;row < libRoom.Length/3+1; row++)
             {
                 RowDefinition rowDefinition = new RowDefinition();
                 rowDefinition.Height = new GridLength(1, GridUnitType.Star);
                 tableGrid.RowDefinitions.Add(rowDefinition);
             }
 
-            for (int row = 0; row < libRoom.Length;row++)
-            {
-                button = CreateOfficeButton(libRoom[row]);
+            int countRoom = 0;
 
-                Grid.SetRow(button, row);
-                tableGrid.Children.Add(button);
-                back = row;
+            for (int row = 0; row < libRoom.Length/3+1;row++)
+            {
+                for (int col = 0; col < 3; col++)
+                {
+                    if (countRoom <= 3)
+                    {
+                        button = CreateOfficeButton(libRoom[countRoom]);
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                    Grid.SetRow(button, row);
+                    Grid.SetColumn(button, col);
+                    tableGrid.Children.Add(button);
+                    countRoom++;
+                }
             }
 
             button = CreateBackButton();
-            Grid.SetRow(button, back + 1);
-            tableGrid.Children.Add(button);
+            button.Margin = new Thickness(25);
+            Grid.SetRow(button, 2);
+            roomMenu.Children.Add(button);
 
             ButtonPanel.Children.Add(tableGrid);
         }
