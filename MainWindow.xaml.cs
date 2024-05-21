@@ -21,6 +21,8 @@ namespace NavigationMap
     /// </summary>
     public partial class MainWindow : Window
     {
+        int countNext = 1;
+        string nextButtonName = string.Empty;
         public MainWindow()
         {
             InitializeComponent();
@@ -131,7 +133,7 @@ namespace NavigationMap
             RowDefinition rowDefinition3 = new RowDefinition();
 
             rowDefinition1.Height = new GridLength(1, GridUnitType.Star);
-            rowDefinition2.Height = new GridLength(4, GridUnitType.Star);
+            rowDefinition2.Height = new GridLength(6, GridUnitType.Star);
             rowDefinition3.Height = new GridLength(1, GridUnitType.Star);
             roomMenu.RowDefinitions.Add(rowDefinition1);
             roomMenu.RowDefinitions.Add(rowDefinition2);
@@ -144,7 +146,7 @@ namespace NavigationMap
             Border1.Child = roomMenu;
 
 
-            string room = "1А1 1А2 1А3 1А4";
+            string room = "1А1 1А2 1А3 1А4 1А5 1А6 1А7 1А8 1А9 1А10 1А11 1А12 1А13 1А14 1А15 1А16 1А17 1А18 1А19 1А20 1А21 1А22 1А23 1А24 1А25 1А26 1А27 1А28 1А29 1А30";
             string[] libRoom = room.Split(' ');
 
             // Добавляем кнопки кабинетов
@@ -177,9 +179,10 @@ namespace NavigationMap
             {
                 for (int col = 0; col < 3; col++)
                 {
-                    if (countRoom <= 3)
+                    if (countRoom <= libRoom.Length-1)
                     {
                         button = CreateOfficeButton(libRoom[countRoom]);
+                        button.Click += OfficeButton_Click;
                     }
                     else
                     {
@@ -199,20 +202,61 @@ namespace NavigationMap
             roomMenu.Children.Add(button);
 
             ButtonPanel.Children.Add(tableGrid);
+
+            TextBlock textBlock = new TextBlock();
+            textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            textBlock.VerticalAlignment = VerticalAlignment.Center;
+            textBlock.Margin = new Thickness(10);
+            textBlock.Text = "It test text in textBlock!";
+            textBlock.FontSize = 20;
+
+            Grid.SetRow(textBlock, 0);
+            roomMenu.Children.Add(textBlock);
         }
         private Button CreateOfficeButton(string officeName)
         {
             Button button = new Button();
             button.Content = officeName;
             button.Margin = new Thickness(5);
-            button.Click += OfficeButton_Click;
             return button;
+        }
+
+        private Button CreateNextButton()
+        {
+            string[] buttonName = { "", "" };
+            Button button = new Button();
+            button.Content = buttonName[countNext-1];
+            button.Margin = new Thickness(5);
+            button.Click += nextButton_Click;
+            if(countNext == 1)
+            {
+                Grid.SetColumn(button, 1);
+            }
+            else
+            {
+                Grid.SetColumn(button, 3);
+            }
+            return button;
+        }
+
+        private Button CreateNextButton(string officeName)
+        {
+
+        }
+
+        private void nextButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void OfficeButton_Click(object sender, RoutedEventArgs e)
         {
             Button clickedButton = sender as Button;
             string officeName = clickedButton.Content.ToString();
+            Button button = new Button();
+            button = CreateOfficeButton(officeName);
+            Grid.SetColumn(button, 1);
+            BoxButtonPanel.Children.Add(button);
 
             // Обработчик нажатия кнопки кабинета
             MessageBox.Show($"Вы выбрали {officeName}");

@@ -8,11 +8,29 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <Image Name="MapImage" Stretch="Uniform" Margin="3" Grid.Column="0"/>
+        <Grid Grid.Column="0" Name="MapBox">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Image Name="MapImage" Stretch="Uniform" Grid.Row="1"/>
+            <Grid Grid.Row="2" Name="BoxButtonPanel">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+            </Grid>
+        </Grid>
 
         <Border Name="Border1" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" VerticalAlignment="Stretch" Height="Auto" Width="Auto">
             <Grid>
