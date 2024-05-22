@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -37,11 +38,6 @@ namespace NavigationMap
             Button clickedButton = sender as Button;
             int floor = int.Parse(clickedButton.Tag.ToString());
             DisplayFloorMap(floor);
-
-            if (floor == 1)
-            {
-                DisplayOffices();
-            }
         }
         private void DisplayFloorMap(int floor)
         {
@@ -50,6 +46,7 @@ namespace NavigationMap
             {
                 string imagePath = $"pack://application:,,,/img/Floor{floor}.jpg";
                 MapImage.Source = new BitmapImage(new Uri(imagePath));
+                DisplayOffices(floor);
             }
             catch (Exception)
             {
@@ -63,6 +60,7 @@ namespace NavigationMap
 
             // Возращаем кнопки выбора этажей
             CreateTableMainMenu();
+            BoxButtonPanel.Children.Clear();
 
             // Вывод по умолчанию карту второго этажа
             int floor = 2;
@@ -123,7 +121,7 @@ namespace NavigationMap
             // Добавляем Grid в основное окно
             ButtonPanel.Children.Add(tableGrid);
         }
-        private void DisplayOffices()
+        private void DisplayOffices(int floor)
         {
             Border1.Child = null;
 
@@ -146,8 +144,12 @@ namespace NavigationMap
             Border1.Child = roomMenu;
 
 
-            string room = "1А1 1А2 1А3 1А4 1А5 1А6 1А7 1А8 1А9 1А10 1А11 1А12 1А13 1А14 1А15 1А16 1А17 1А18 1А19 1А20 1А21 1А22 1А23 1А24 1А25 1А26 1А27 1А28 1А29 1А30";
-            string[] libRoom = room.Split(' ');
+            int roomsCount = 30;
+            string[] libRoom = new string[roomsCount];
+            for (int i = 1; i <= roomsCount; i++)
+            {
+                libRoom[i-1] = $"{floor}A{i}";
+            }
 
             // Добавляем кнопки кабинетов
             Grid tableGrid = new Grid();
@@ -223,43 +225,80 @@ namespace NavigationMap
 
         private Button CreateNextButton()
         {
-            string[] buttonName = { "", "" };
+            BoxButtonPanel.Children.Clear();
+
+            string[] buttonName = { "Далее", "Назад" };
             Button button = new Button();
             button.Content = buttonName[countNext-1];
             button.Margin = new Thickness(5);
             button.Click += nextButton_Click;
             if(countNext == 1)
             {
-                Grid.SetColumn(button, 1);
+                Grid.SetColumn(button, 3);
+                countNext = 2;
             }
             else
             {
-                Grid.SetColumn(button, 3);
+                Grid.SetColumn(button, 1);
+                countNext = 1;
             }
             return button;
         }
 
         private Button CreateNextButton(string officeName)
         {
+            BoxButtonPanel.Children.Clear();
+            Button button = new Button();
+            button.Content = "Далее";
+            button.Margin = new Thickness(5);
+            button.Click += nextButton_Click;
+            Grid.SetColumn(button, 3);
+            nextButtonName = officeName;
+            try
+            {
+                string imagePath = $"pack://application:,,,/img/office/{nextButtonName}-{countNext}.jpg";
+                MapImage.Source = new BitmapImage(new Uri(imagePath));
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Картинки нету");
+                BoxButtonPanel.Children.Clear();
+            }
 
+            countNext = 2;
+
+            return button;
         }
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                string imagePath = $"pack://application:,,,/img/office/{nextButtonName}-{countNext}.jpg";
+                MapImage.Source = new BitmapImage(new Uri(imagePath));
 
+                Button button = new Button();
+                button = CreateNextButton();
+                BoxButtonPanel.Children.Add(button);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Картинки нету");
+                BoxButtonPanel.Children.Clear();
+            }
         }
 
         private void OfficeButton_Click(object sender, RoutedEventArgs e)
         {
             Button clickedButton = sender as Button;
             string officeName = clickedButton.Content.ToString();
-            Button button = new Button();
-            button = CreateOfficeButton(officeName);
-            Grid.SetColumn(button, 1);
-            BoxButtonPanel.Children.Add(button);
 
-            // Обработчик нажатия кнопки кабинета
-            MessageBox.Show($"Вы выбрали {officeName}");
+
+            Button button = new Button();
+            button = CreateNextButton(officeName);
+            BoxButtonPanel.Children.Add(button);
         }
 
         private Button CreateBackButton()
