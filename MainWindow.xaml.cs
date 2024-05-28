@@ -113,6 +113,7 @@ namespace NavigationMap
                 button.Margin = new Thickness(5);
                 button.Click += FloorButton_Click;
                 button.Tag = row + 1;
+                button.FontSize = 20;
 
                 Grid.SetRow(button, row);
                 tableGrid.Children.Add(button);
@@ -252,6 +253,7 @@ namespace NavigationMap
             textBlock.Margin = new Thickness(10);
             textBlock.Text = "Выберите кабинет.";
             textBlock.FontSize = 20;
+            textBlock.FontSize = 20;
 
             Grid.SetRow(textBlock, 0);
             roomMenu.Children.Add(textBlock);
@@ -260,6 +262,7 @@ namespace NavigationMap
         {
             Button button = new Button();
             button.Content = officeName;
+            button.FontSize = 20;
             button.Margin = new Thickness(5);
             return button;
         }
@@ -272,6 +275,7 @@ namespace NavigationMap
             Button button = new Button();
             button.Content = buttonName[countNext-1];
             button.Margin = new Thickness(5);
+            button.FontSize = 20;
             button.Click += nextButton_Click;
             if(countNext == 1)
             {
@@ -293,6 +297,7 @@ namespace NavigationMap
             Button button = new Button();
             button.Content = "Далее";
             button.Margin = new Thickness(5);
+            button.FontSize = 20;
             button.Click += nextButton_Click;
             Grid.SetColumn(button, 3);
             nextButtonName = officeName;
@@ -356,6 +361,7 @@ namespace NavigationMap
             Button button = new Button();
             button.Content = "Назад";
             button.Margin = new Thickness(5);
+            button.FontSize = 20;
             button.Click += DisplayBack_Click;
             return button;
         }
