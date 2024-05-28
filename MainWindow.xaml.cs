@@ -29,7 +29,7 @@ namespace NavigationMap
             InitializeComponent();
 
             // Вывод по умолчанию карту второго этажа
-            string imagePath = $"pack://application:,,,/img/Floor2.jpg";
+            string imagePath = $"pack://application:,,,/img/Floor2.png";
             MapImage.Source = new BitmapImage(new Uri(imagePath));
         }
 
@@ -44,7 +44,7 @@ namespace NavigationMap
             // Вывод картинки этажа на главный экран
             try
             {
-                string imagePath = $"pack://application:,,,/img/Floor{floor}.jpg";
+                string imagePath = $"pack://application:,,,/img/Floor{floor}.png";
                 MapImage.Source = new BitmapImage(new Uri(imagePath));
                 DisplayOffices(floor);
             }
@@ -64,7 +64,7 @@ namespace NavigationMap
 
             // Вывод по умолчанию карту второго этажа
             int floor = 2;
-            string imagePath = $"pack://application:,,,/img/Floor{floor}.jpg";
+            string imagePath = $"pack://application:,,,/img/Floor{floor}.png";
             MapImage.Source = new BitmapImage(new Uri(imagePath));
         }
 
@@ -131,7 +131,14 @@ namespace NavigationMap
             RowDefinition rowDefinition3 = new RowDefinition();
 
             rowDefinition1.Height = new GridLength(1, GridUnitType.Star);
-            rowDefinition2.Height = new GridLength(6, GridUnitType.Star);
+            if(floor == 1)
+            {
+                rowDefinition2.Height = new GridLength(2, GridUnitType.Star);
+            }
+            else
+            {
+                rowDefinition2.Height = new GridLength(6, GridUnitType.Star);
+            }
             rowDefinition3.Height = new GridLength(1, GridUnitType.Star);
             roomMenu.RowDefinitions.Add(rowDefinition1);
             roomMenu.RowDefinitions.Add(rowDefinition2);
@@ -142,59 +149,93 @@ namespace NavigationMap
             roomMenu.Children.Add(ButtonPanel);
 
             Border1.Child = roomMenu;
-
-
-            int roomsCount = 30;
-            string[] libRoom = new string[roomsCount];
-            for (int i = 1; i <= roomsCount; i++)
+            string[] libRoom = new String[0];
+            if (floor == 1)
             {
-                libRoom[i-1] = $"{floor}A{i}";
+                libRoom = new string[] { "1A1", "1A2", "1A3" };
             }
-
+            else if (floor == 2)
+            {
+                libRoom = new string[] { "2A1", "2A2", "2A18", "2A19", "2A20" };
+            }
+            else if(floor == 3)
+            {
+                libRoom = new string[] { "3A1", "3A2", "3A3", "3A4", "3A6", "3A7", "3A8", "3A9", "3A10", "3A11", "3A13", "3A14", "3A16", "3A17", "3A18", "3A19", "3A20", "3A23", "3A24", "3A25", "3A26", "3A27", "3A30", "3A31", "3A32", "3A35", "3A40", "3A41" };
+            }
             // Добавляем кнопки кабинетов
             Grid tableGrid = new Grid();
             Button button = new Button();
 
-            ColumnDefinition col1 = new ColumnDefinition();
-            col1.Width = new GridLength(1, GridUnitType.Star);
-
-            ColumnDefinition col2 = new ColumnDefinition();
-            col2.Width = new GridLength(1, GridUnitType.Star);
-
-            ColumnDefinition col3 = new ColumnDefinition();
-            col3.Width = new GridLength (1, GridUnitType.Star);
-
-            tableGrid.ColumnDefinitions.Add(col1);
-            tableGrid.ColumnDefinitions.Add(col2);
-            tableGrid.ColumnDefinitions.Add(col3);
-
-            for (int row = 0;row < libRoom.Length/3+1; row++)
+            if(floor != 1 & floor != 2)
             {
-                RowDefinition rowDefinition = new RowDefinition();
-                rowDefinition.Height = new GridLength(1, GridUnitType.Star);
-                tableGrid.RowDefinitions.Add(rowDefinition);
+                ColumnDefinition col1 = new ColumnDefinition();
+                col1.Width = new GridLength(1, GridUnitType.Star);
+
+                ColumnDefinition col2 = new ColumnDefinition();
+                col2.Width = new GridLength(1, GridUnitType.Star);
+
+                ColumnDefinition col3 = new ColumnDefinition();
+                col3.Width = new GridLength(1, GridUnitType.Star);
+
+                tableGrid.ColumnDefinitions.Add(col1);
+                tableGrid.ColumnDefinitions.Add(col2);
+                tableGrid.ColumnDefinitions.Add(col3);
+            }
+            if (floor != 1 & floor != 2)
+            {
+                for (int row = 0; row < libRoom.Length / 3 + 1; row++)
+                {
+                    RowDefinition rowDefinition = new RowDefinition();
+                    rowDefinition.Height = new GridLength(1, GridUnitType.Star);
+                    tableGrid.RowDefinitions.Add(rowDefinition);
+                }
+            }
+            else
+            {
+                for(int row = 0;row < libRoom.Length; row++)
+                {
+                    RowDefinition rowDefinition = new RowDefinition();
+                    rowDefinition.Height = new GridLength(1, GridUnitType.Star);
+                    tableGrid.RowDefinitions.Add(rowDefinition);
+                }
             }
 
             int countRoom = 0;
 
-            for (int row = 0; row < libRoom.Length/3+1;row++)
+            if (floor != 1 & floor != 2)
             {
-                for (int col = 0; col < 3; col++)
+                for (int row = 0; row < libRoom.Length / 3 + 1; row++)
                 {
-                    if (countRoom <= libRoom.Length-1)
+                    for (int col = 0; col < 3; col++)
                     {
-                        button = CreateOfficeButton(libRoom[countRoom]);
-                        button.Click += OfficeButton_Click;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                        if (countRoom <= libRoom.Length - 1)
+                        {
+                            button = CreateOfficeButton(libRoom[countRoom]);
+                            button.Click += OfficeButton_Click;
+                            button.Tag = floor;
+                        }
+                        else
+                        {
+                            break;
+                        }
 
+                        Grid.SetRow(button, row);
+                        Grid.SetColumn(button, col);
+                        tableGrid.Children.Add(button);
+                        countRoom++;
+                    }
+                }
+            }
+            else
+            {
+                for(int row = 0; row < libRoom.Length; row++)
+                {
+                    button = CreateOfficeButton(libRoom[row]);
+                    button.Click += OfficeButton_Click;
+                    button.Tag = floor;
+                    button.Margin = new Thickness(5);
                     Grid.SetRow(button, row);
-                    Grid.SetColumn(button, col);
                     tableGrid.Children.Add(button);
-                    countRoom++;
                 }
             }
 
@@ -209,7 +250,7 @@ namespace NavigationMap
             textBlock.HorizontalAlignment = HorizontalAlignment.Center;
             textBlock.VerticalAlignment = VerticalAlignment.Center;
             textBlock.Margin = new Thickness(10);
-            textBlock.Text = "It test text in textBlock!";
+            textBlock.Text = "Выберите кабинет.";
             textBlock.FontSize = 20;
 
             Grid.SetRow(textBlock, 0);
@@ -245,9 +286,10 @@ namespace NavigationMap
             return button;
         }
 
-        private Button CreateNextButton(string officeName)
+        private Button CreateNextButton(string officeName, int floor)
         {
             BoxButtonPanel.Children.Clear();
+            
             Button button = new Button();
             button.Content = "Далее";
             button.Margin = new Thickness(5);
@@ -256,9 +298,8 @@ namespace NavigationMap
             nextButtonName = officeName;
             try
             {
-                string imagePath = $"pack://application:,,,/img/office/{nextButtonName}-{countNext}.jpg";
+                string imagePath = $"pack://application:,,,/img/office/{nextButtonName}-{countNext}.png";
                 MapImage.Source = new BitmapImage(new Uri(imagePath));
-                
             }
             catch (Exception ex)
             {
@@ -275,7 +316,7 @@ namespace NavigationMap
         {
             try
             {
-                string imagePath = $"pack://application:,,,/img/office/{nextButtonName}-{countNext}.jpg";
+                string imagePath = $"pack://application:,,,/img/office/{nextButtonName}-{countNext}.png";
                 MapImage.Source = new BitmapImage(new Uri(imagePath));
 
                 Button button = new Button();
@@ -294,11 +335,20 @@ namespace NavigationMap
         {
             Button clickedButton = sender as Button;
             string officeName = clickedButton.Content.ToString();
+            int floor = int.Parse(clickedButton.Tag.ToString());
 
-
-            Button button = new Button();
-            button = CreateNextButton(officeName);
-            BoxButtonPanel.Children.Add(button);
+            if (floor != 2)
+            {
+                Button button = new Button();
+                countNext = 1;
+                button = CreateNextButton(officeName, floor);
+                BoxButtonPanel.Children.Add(button);
+            }
+            else
+            {
+                string imagePath = $"pack://application:,,,/img/office/{officeName}.png";
+                MapImage.Source = new BitmapImage(new Uri(imagePath));
+            }
         }
 
         private Button CreateBackButton()
@@ -309,5 +359,7 @@ namespace NavigationMap
             button.Click += DisplayBack_Click;
             return button;
         }
+
+        
     }
 }

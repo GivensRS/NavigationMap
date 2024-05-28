@@ -95,16 +95,81 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="img\Floor1.jpg" />
-    <Resource Include="img\Floor2.jpg" />
-    <Resource Include="img\Floor3.jpg" />
-    <Resource Include="img\FLoor4.jpg" />
+    <Resource Include="img\Floor1.png" />
+    <Resource Include="img\office\1A1-1.png" />
+    <Resource Include="img\office\1A1-2.png" />
+    <Resource Include="img\office\1A2-1.png" />
+    <Resource Include="img\office\1A2-2.png" />
+    <Resource Include="img\office\1A3-1.png" />
+    <Resource Include="img\office\1A3-2.png" />
+    <Resource Include="img\office\2A1.png" />
+    <Resource Include="img\office\2A18.png" />
+    <Resource Include="img\office\2A19.png" />
+    <Resource Include="img\office\2A2.png" />
+    <Resource Include="img\office\2A20.png" />
+    <Resource Include="img\office\3A1-1.png" />
+    <Resource Include="img\office\3A1-2.png" />
+    <Resource Include="img\office\3A2-1.png" />
+    <Resource Include="img\office\3A2-2.png" />
+    <Resource Include="img\office\3A3-1.png" />
+    <Resource Include="img\office\3A3-2.png" />
+    <Resource Include="img\office\3A40-1.png" />
+    <Resource Include="img\office\3A40-2.png" />
+    <Resource Include="img\office\3A41-1.png" />
+    <Resource Include="img\office\3A41-2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="img\office\1A1-1.jpg" />
+    <Resource Include="img\Floor2.png" />
+    <Resource Include="img\Floor3.png" />
+    <Resource Include="img\Floor4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="img\office\1A1-2.jpg" />
+    <Resource Include="img\office\3A10-1.png" />
+    <Resource Include="img\office\3A10-2.png" />
+    <Resource Include="img\office\3A11-1.png" />
+    <Resource Include="img\office\3A11-2.png" />
+    <Resource Include="img\office\3A13-1.png" />
+    <Resource Include="img\office\3A13-2.png" />
+    <Resource Include="img\office\3A14-1.png" />
+    <Resource Include="img\office\3A14-2.png" />
+    <Resource Include="img\office\3A16-1.png" />
+    <Resource Include="img\office\3A16-2.png" />
+    <Resource Include="img\office\3A17-1.png" />
+    <Resource Include="img\office\3A17-2.png" />
+    <Resource Include="img\office\3A18-1.png" />
+    <Resource Include="img\office\3A18-2.png" />
+    <Resource Include="img\office\3A19-1.png" />
+    <Resource Include="img\office\3A19-2.png" />
+    <Resource Include="img\office\3A20-1.png" />
+    <Resource Include="img\office\3A20-2.png" />
+    <Resource Include="img\office\3A23-1.png" />
+    <Resource Include="img\office\3A23-2.png" />
+    <Resource Include="img\office\3A24-1.png" />
+    <Resource Include="img\office\3A24-2.png" />
+    <Resource Include="img\office\3A25-1.png" />
+    <Resource Include="img\office\3A25-2.png" />
+    <Resource Include="img\office\3A26-1.png" />
+    <Resource Include="img\office\3A26-2.png" />
+    <Resource Include="img\office\3A27-1.png" />
+    <Resource Include="img\office\3A27-2.png" />
+    <Resource Include="img\office\3A30-1.png" />
+    <Resource Include="img\office\3A30-2.png" />
+    <Resource Include="img\office\3A31-1.png" />
+    <Resource Include="img\office\3A31-2.png" />
+    <Resource Include="img\office\3A32-1.png" />
+    <Resource Include="img\office\3A32-2.png" />
+    <Resource Include="img\office\3A35-1.png" />
+    <Resource Include="img\office\3A35-2.png" />
+    <Resource Include="img\office\3A4-1.png" />
+    <Resource Include="img\office\3A4-2.png" />
+    <Resource Include="img\office\3A6-1.png" />
+    <Resource Include="img\office\3A6-2.png" />
+    <Resource Include="img\office\3A7-1.png" />
+    <Resource Include="img\office\3A7-2.png" />
+    <Resource Include="img\office\3A8-1.png" />
+    <Resource Include="img\office\3A8-2.png" />
+    <Resource Include="img\office\3A9-1.png" />
+    <Resource Include="img\office\3A9-2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
